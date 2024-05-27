@@ -17,5 +17,6 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   { import = "astrocommunity.colorscheme.onedarkpro-nvim" },
+  { import = "astrocommunity.markdown-and-latex.markdown-preview-nvim" },
   -- import/override with your plugins folder
 }
