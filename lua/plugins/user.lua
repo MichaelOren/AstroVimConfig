@@ -11,6 +11,26 @@ return {
     config = function() require("lsp_signature").setup() end,
   },
 
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = function(_, opts)
+      opts.filesystem = {
+        filtered_items = {
+          --visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = true,
+          hide_by_name = {
+            ".github",
+            ".gitignore",
+            "package-lock.json",
+            "yarn.lock",
+          },
+          never_show = { ".git", ".DS_Store" },
+        },
+      }
+      return opts
+    end,
+  },
   -- == Examples of Overriding Plugins ==
 
   -- customize alpha options
