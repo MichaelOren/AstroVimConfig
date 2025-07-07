@@ -59,11 +59,19 @@ return {
   {
     "max397574/better-escape.nvim",
     config = require("better_escape").setup {
-      mapping = { "jk", "kj" }, -- a table with mappings to use
-      keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
+      default_mappings = false,
+      mappings = {
+        i = {
+          k = {
+            j = "<Esc>",
+          },
+          j = {
+            k = "<Esc>",
+          },
+        },
+      },
     },
   },
-
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
   -- {
   --   "L3MON4D3/LuaSnip",
