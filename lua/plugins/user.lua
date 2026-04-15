@@ -1,116 +1,42 @@
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
--- Here are some examples:
-
 ---@type LazySpec
 return {
-
-  -- == Examples of Adding Plugins ==
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
+    main = "lsp_signature",
+    opts = {},
   },
-
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = function(_, opts)
-      opts.filesystem = {
-        filtered_items = {
-          --visible = true,
-          hide_dotfiles = false,
-          hide_gitignored = true,
-          hide_by_name = {
-            ".github",
-            ".gitignore",
-            "package-lock.json",
-            "yarn.lock",
-          },
-          never_show = { ".git", ".DS_Store" },
+      opts.filesystem = opts.filesystem or {}
+      opts.filesystem.filtered_items = vim.tbl_deep_extend("force", opts.filesystem.filtered_items or {}, {
+        hide_dotfiles = false,
+        hide_gitignored = true,
+        hide_by_name = {
+          ".github",
+          ".gitignore",
+          "package-lock.json",
+          "yarn.lock",
+        },
+        never_show = { ".git", ".DS_Store" },
+      })
+      return opts
+    end,
+  },
+  {
+    "max397574/better-escape.nvim",
+    opts = function(_, opts)
+      opts = vim.tbl_deep_extend("force", opts or {}, {
+        default_mappings = false,
+      })
+      opts.mappings = {
+        i = {
+          j = { k = "<Esc>" },
+          k = { j = "<Esc>" },
         },
       }
       return opts
     end,
   },
-  -- == Examples of Overriding Plugins ==
-
-  -- customize alpha options
-  -- {
-  --   "goolord/alpha-nvim",
-  --   opts = function(_, opts)
-  --     -- customize the dashboard header
-  --     opts.section.header.val = {
-  --       " █████  ███████ ████████ ██████   ██████",
-  --       "██   ██ ██         ██    ██   ██ ██    ██",
-  --       "███████ ███████    ██    ██████  ██    ██",
-  --       "██   ██      ██    ██    ██   ██ ██    ██",
-  --       "██   ██ ███████    ██    ██   ██  ██████",
-  --       " ",
-  --       "    ███    ██ ██    ██ ██ ███    ███",
-  --       "    ████   ██ ██    ██ ██ ████  ████",
-  --       "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-  --       "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-  --       "    ██   ████   ████   ██ ██      ██",
-  --     }
-  --     return opts
-  --   end,
-  -- },
-
-  -- You can disable default plugins as follows:
-  {
-    "max397574/better-escape.nvim",
-    config = require("better_escape").setup {
-      default_mappings = false,
-      mappings = {
-        i = {
-          k = {
-            j = "<Esc>",
-          },
-          j = {
-            k = "<Esc>",
-          },
-        },
-      },
-    },
-  },
-  -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
-  -- {
-  --   "L3MON4D3/LuaSnip",
-  --   config = function(plugin, opts)
-  --     require "astronvim.plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
-  --     -- add more custom luasnip configuration such as filetype extend or custom snippets
-  --     local luasnip = require "luasnip"
-  --     luasnip.filetype_extend("javascript", { "javascriptreact" })
-  --   end,
-  -- },
-  --
-  -- {
-  --   "windwp/nvim-autopairs",
-  --   config = function(plugin, opts)
-  --     require "astronvim.plugins.configs.nvim-autopairs"(plugin, opts) -- include the default astronvim config that calls the setup call
-  --     -- add more custom autopairs configuration such as custom rules
-  --     local npairs = require "nvim-autopairs"
-  --     local Rule = require "nvim-autopairs.rule"
-  --     local cond = require "nvim-autopairs.conds"
-  --     npairs.add_rules(
-  --       {
-  --         Rule("$", "$", { "tex", "latex" })
-  --           -- don't add a pair if the next character is %
-  --           :with_pair(cond.not_after_regex "%%")
-  --           -- don't add a pair if  the previous character is xxx
-  --           :with_pair(
-  --             cond.not_before_regex("xxx", 3)
-  --           )
-  --           -- don't move right when repeat character
-  --           :with_move(cond.none())
-  --           -- don't delete if the next character is xx
-  --           :with_del(cond.not_after_regex "xx")
-  --           -- disable adding a newline when you press <cr>
-  --           :with_cr(cond.none()),
-  --       },
-  --       -- disable for .vim files, but it work for another filetypes
-  --       Rule("a", "a", "-vim")
-  --     )
-  --   end,
-  -- },
 }
